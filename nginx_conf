@@ -1,0 +1,20 @@
+server {
+    listen 80;
+    server_name neoliber.al;
+    location / {
+        proxy_pass http://localhost:8080/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+server {
+    listen 443 ssl;
+    #ssl_certificate [REDACTED]
+    #ssl_certificate_key [REDACTED]
+    location / {
+        proxy_pass http://localhost:8080/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
