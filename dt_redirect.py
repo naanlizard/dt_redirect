@@ -15,10 +15,14 @@ class Redirect(BaseHTTPRequestHandler):
         super().__init__(*args)
 
     def _find_dt(self):
+        url = 'https://www.reddit.com/r/neoliberal'
         for submission in self.neoliberal.search('Discussion Thread', sort='new'):
             if submission.author == 'jobautomator':
-                return submission.url
-        return 'http://reddit.com/r/neoliberal'
+                url = submission.url
+                break
+        if self.path == '/dt/old':
+            url = url.replace('www', 'old')
+        return(url)
 
     def do_GET(self):
         self.send_response(302)
