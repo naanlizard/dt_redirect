@@ -2,6 +2,9 @@ server {
     listen 80;
     server_name neoliber.al;
     location / {
+        return 301 http://neoliberalproject.org;
+    }
+    location /dt {
         proxy_pass http://localhost:8080/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -10,9 +13,12 @@ server {
 
 server {
     listen 443 ssl;
-    #ssl_certificate [REDACTED]
-    #ssl_certificate_key [REDACTED]
+    ssl_certificate /etc/letsencrypt/live/neoliber.al/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/neoliber.al/privkey.pem; # managed by Certbot
     location / {
+        return 301 https://neoliberalproject.org;
+    }
+    location /dt {
         proxy_pass http://localhost:8080/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
