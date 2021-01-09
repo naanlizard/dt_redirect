@@ -1,3 +1,5 @@
+"""A simple webserver for redirecting traffic to latest discussion thread"""
+
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import os
 
@@ -5,19 +7,24 @@ import praw
 
 
 class Redirect(BaseHTTPRequestHandler):
+    """Handle incoming requests"""
+
     def do_GET(self):
+        """Handle HTTP GET requests"""
         self.send_response(302)
         self.send_header('Location', find_dt(self.path))
         self.end_headers()
 
     def log_message(self, *_):
-        print(
-            f'{self.headers["X-Real-IP"]}:{self.command}:{self.path}'
-            f':{self.headers["User-Agent"]}'
-        )
+        # Nginx logs are sufficient
+        pass
 
 
 def find_dt(path = ''):
+    """Locate the current DT using praw.
+
+    Assumes the existence of a 'neoliberal' object in outer scope
+    """
     url = 'https://www.reddit.com/r/neoliberal'
     for submission in neoliberal.search('Discussion Thread', sort='new'):
         if submission.author == 'jobautomator':
@@ -25,10 +32,13 @@ def find_dt(path = ''):
             break
     if path.strip('/') == 'dt/old':
         url = url.replace('www', 'old')
+    elif path.strip('/') == 'dt/stream':
+        url = url.replace('reddit.com', 'reddit-stream.com')
     return(url)
 
 
 if __name__ == "__main__":
+    """Create our Reddit instance and run the webserver indefinitely"""
     reddit = praw.Reddit(
         client_id = os.environ['client_id'],
         client_secret = os.environ['client_secret'],
