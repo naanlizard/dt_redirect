@@ -12,7 +12,10 @@ class Redirect(BaseHTTPRequestHandler):
     def do_GET(self):
         """Handle HTTP GET requests"""
         self.send_response(302)
-        self.send_header('Location', find_dt(self.path))
+        try:
+            self.send_header('Location', find_dt(self.path))
+        except Exception:
+            self.send_header('Location', 'https://reddit.com/r/neoliberal')
         self.end_headers()
 
     def log_message(self, *_):
