@@ -37,6 +37,8 @@ def find_dt(path = ''):
         url = url.replace('www', 'old')
     elif path.strip('/') == 'dt/stream':
         url = url.replace('reddit.com', 'reddit-stream.com')
+    elif path.strip('/') == 'dt/compact':
+        url = url.replace('www', 'i')
     return(url)
 
 
