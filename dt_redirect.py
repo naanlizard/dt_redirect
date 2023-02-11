@@ -28,11 +28,11 @@ def find_dt(path = ''):
 
     Assumes the existence of a 'neoliberal' object in outer scope
     """
-    url = 'https://www.reddit.com/r/neoliberal'
-    for submission in neoliberal.search('Discussion Thread', sort='new'):
-        if submission.author == 'jobautomator':
-            url = submission.url
-            break
+    try:
+        url = next(dt_bot.submissions.new(limit=1)).url
+    except Exception:
+        # If we can't find the DT for whatever reason, send people to the sub
+        url = 'https://www.reddit.com/r/neoliberal'
     if path.strip('/') == 'dt/old':
         url = url.replace('www', 'old')
     elif path.strip('/') == 'dt/stream':
@@ -50,5 +50,5 @@ if __name__ == "__main__":
         refresh_token = os.environ['refresh_token'],
         user_agent = 'linux:dt_redirect:v1.1 (by /u/jenbanim)'
     )
-    neoliberal = reddit.subreddit('neoliberal')
+    dt_bot = reddit.redditor(os.environ['dt_bot_username'])
     HTTPServer(("", 8080), Redirect).serve_forever()
