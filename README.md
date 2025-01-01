@@ -9,3 +9,15 @@ any change to the DT, this script must also be updated.
 In case no DT is found, users are redirected to the subreddit itself.
 
 I've also included the associated NGINX configuration file.
+
+Supports the following trailing arguments in the URL path
+
+/dt/compact - returns i.reddit.com instead of www. - which reddit seems to internally redirect to www anyway now, so I'm not sure if this is useful
+
+/dt/stream - returns a reddit-stream.com url
+
+/dt/old - returns old.reddit.com instead of www
+
+---
+
+To run in docker: `docker compose up -d --build` (remove `-d` if you don't want to fork it to the background)

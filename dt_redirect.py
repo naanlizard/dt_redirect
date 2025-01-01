@@ -17,7 +17,6 @@ reddit = praw.Reddit(
 
 reddit.read_only = True
 
-
 # Cache structure: store the latest discussion link and when it was posted
 cached_discussion = {
     "url": None,         # e.g., "/r/something/comments/..."

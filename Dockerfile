@@ -16,4 +16,4 @@ COPY dt_redirect.py /app/dt_redirect.py
 EXPOSE 8080
 
 # Run via Gunicorn (what a name)
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "dt_redirect:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "dt_redirect:app", "--workers=2"]
