@@ -74,8 +74,6 @@ def index(subpath=None):
         return_url = return_url.replace("www", "old")
     elif cleaned_path == "dt/stream":
         return_url = return_url.replace("reddit.com", "reddit-stream.com")
-    elif cleaned_path == "dt/compact":
-        return_url = return_url.replace("www", "i")
 
     return redirect(return_url, code=302)
 
